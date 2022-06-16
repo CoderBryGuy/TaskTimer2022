@@ -1,9 +1,12 @@
 package com.example.tasktimer2022;
 
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -16,6 +19,7 @@ import android.view.MenuItem;
 
 public class
 MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
@@ -26,11 +30,25 @@ MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        AppDatabase appDatabase = AppDatabase.getInstance(this);
-        final SQLiteDatabase db = appDatabase.getReadableDatabase();
-
         setSupportActionBar(binding.toolbar);
+
+//        AppDatabase appDatabase = AppDatabase.getInstance(this);
+//        final SQLiteDatabase db = appDatabase.getReadableDatabase();
+
+        String[] projection = {TasksContract.Columns.TASKS_NAME, TasksContract.Columns.TASKS_DESCRIPTION};
+        ContentResolver contentResolver = getContentResolver();
+        Cursor cursor = contentResolver.query(TasksContract.CONTENT_URI,
+                projection,
+                null,
+                null,
+                TasksContract.Columns.TASKS_NAME);
+
+        if(cursor != null){
+            Log.d(TAG, "onCreate: number of rows: " + cursor.getCount());
+            while(cursor.moveToNext()){
+                //continue here bryan
+            }
+        }
 
 //        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
 //        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();

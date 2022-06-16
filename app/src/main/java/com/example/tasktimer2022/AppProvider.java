@@ -4,12 +4,15 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 /**
- * Provider for the task timer app. This is the only class that knows about {@link AppDatabase}
+ * Provider for the task timer app. This is the only class that knows about {@link AppDatabase}.
  */
 
 public class AppProvider extends ContentProvider {
@@ -63,7 +66,46 @@ public class AppProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-        return null;
+        Log.d(TAG, "query: called with URI " + uri);
+        final int match = sUriMatcher.match(uri);
+        Log.d(TAG, "query match is: " + match);
+
+        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+        switch(match){
+            case TASKS:
+                queryBuilder.setTables(TasksContract.TABLE_NAME);
+                break;
+            case TASKS_ID:
+                    queryBuilder.setTables(TasksContract.TABLE_NAME);
+                    long taskId = TasksContract.getTaskId(uri);
+                    queryBuilder.appendWhere(TasksContract.Columns._ID + "= " + taskId);
+                    break;
+
+//            case TIMINGS:
+//                queryBuilder.setTables(TimingsContract.TABLE_NAME);
+//                break;
+//            case TIMINGS_ID:
+//                queryBuilder.setTables(TimingsContract.TABLE_NAME);
+//                long timingId = TimingsContract.getTimingId(uri);
+//                queryBuilder.appendWhere(TimingsContract.Columns._ID + "= " + timingId);
+//                break;
+//
+//            case TASK_DURATIONS:
+//                queryBuilder.setTables(DurationsContract.TABLE_NAME);
+//                break;
+//            case TASK_DURATIONS_ID:
+//                queryBuilder.setTables(DurationsContract.TABLE_NAME);
+//                long durationId = DurationsContract.getDurationId(uri);
+//                queryBuilder.appendWhere(DurationsContract.Columns._ID + "= " + durationId);
+//                break;
+
+            default:
+                throw new IllegalArgumentException("UnknownURI: " + uri);
+        }
+
+        SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+        return queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+
     }
 
     @Nullable
