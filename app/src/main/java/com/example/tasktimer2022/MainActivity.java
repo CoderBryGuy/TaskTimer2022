@@ -46,8 +46,12 @@ MainActivity extends AppCompatActivity {
         if(cursor != null){
             Log.d(TAG, "onCreate: number of rows: " + cursor.getCount());
             while(cursor.moveToNext()){
-                //continue here bryan
+                for (int i = 0; i < cursor.getColumnCount(); i++) {
+                    Log.d(TAG, "onCreate: " + cursor.getColumnName(i) + ": " + cursor.getString(i));
+                }
+                Log.d(TAG, "onCreate: ========================");
             }
+            cursor.close();
         }
 
 //        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
