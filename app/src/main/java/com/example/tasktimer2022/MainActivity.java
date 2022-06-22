@@ -1,8 +1,10 @@
 package com.example.tasktimer2022;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -35,13 +37,53 @@ MainActivity extends AppCompatActivity {
 //        AppDatabase appDatabase = AppDatabase.getInstance(this);
 //        final SQLiteDatabase db = appDatabase.getReadableDatabase();
 
-        String[] projection = {TasksContract.Columns.TASKS_NAME, TasksContract.Columns.TASKS_DESCRIPTION};
+        String[] projection = {
+                TasksContract.Columns._ID,
+                TasksContract.Columns.TASKS_NAME,
+                TasksContract.Columns.TASKS_DESCRIPTION,
+                TasksContract.Columns.TASKS_SORT_ORDER};
+
         ContentResolver contentResolver = getContentResolver();
+
+        ContentValues values = new ContentValues();
+        values.put(TasksContract.Columns.TASKS_SORT_ORDER, "2");
+        values.put(TasksContract.Columns.TASKS_DESCRIPTION, "Completed");
+        String selection = TasksContract.Columns.TASKS_SORT_ORDER + " = " + 2;
+
+        int count = contentResolver.update(TasksContract.CONTENT_URI, values, selection, null);
+
+
+//        values.put(TasksContract.Columns.TASKS_NAME, "Content Provider");
+//        values.put(TasksContract.Columns.TASKS_DESCRIPTION, "record content provider video");
+//        int count = contentResolver.update(TasksContract.buildTaskUri(4), values, null, null);
+//        Log.d(TAG, "onCreate: " + count + "record(s) updated");
+
+
+//        values.put(TasksContract.Columns.TASKS_NAME, "new tasks 2");
+//        values.put(TasksContract.Columns.TASKS_DESCRIPTION, "description 2");
+//        values.put(TasksContract.Columns.TASKS_SORT_ORDER, 2);
+//        Uri uri = contentResolver.insert(TasksContract.CONTENT_URI, values);
+//
+//        values.put(TasksContract.Columns.TASKS_NAME, "new tasks 3");
+//        values.put(TasksContract.Columns.TASKS_DESCRIPTION, "description 3");
+//        values.put(TasksContract.Columns.TASKS_SORT_ORDER, 3);
+//        uri = contentResolver.insert(TasksContract.CONTENT_URI, values);
+//
+//        values.put(TasksContract.Columns.TASKS_NAME, "new tasks 4");
+//        values.put(TasksContract.Columns.TASKS_DESCRIPTION, "description 4");
+//        values.put(TasksContract.Columns.TASKS_SORT_ORDER, 3);
+//        uri = contentResolver.insert(TasksContract.CONTENT_URI, values);
+//
+//        values.put(TasksContract.Columns.TASKS_NAME, "new tasks 5");
+//        values.put(TasksContract.Columns.TASKS_DESCRIPTION, "description 5");
+//        values.put(TasksContract.Columns.TASKS_SORT_ORDER, 2);
+//        uri = contentResolver.insert(TasksContract.CONTENT_URI, values);
+
         Cursor cursor = contentResolver.query(TasksContract.CONTENT_URI,
                 projection,
                 null,
                 null,
-                TasksContract.Columns.TASKS_NAME);
+                TasksContract.Columns.TASKS_SORT_ORDER);
 
         if(cursor != null){
             Log.d(TAG, "onCreate: number of rows: " + cursor.getCount());
