@@ -46,12 +46,25 @@ MainActivity extends AppCompatActivity {
         ContentResolver contentResolver = getContentResolver();
 
         ContentValues values = new ContentValues();
-        values.put(TasksContract.Columns.TASKS_SORT_ORDER, "2");
-        values.put(TasksContract.Columns.TASKS_DESCRIPTION, "Completed");
-        String selection = TasksContract.Columns.TASKS_SORT_ORDER + " = " + 2;
+//        values.put(TasksContract.Columns.TASKS_SORT_ORDER, "99");
+//        values.put(TasksContract.Columns.TASKS_DESCRIPTION, "Completed");
+//        String selection = TasksContract.Columns.TASKS_SORT_ORDER + " = " + 2;
+//        int count = contentResolver.update(TasksContract.CONTENT_URI, values, selection, null);
+//        Log.d(TAG, "onCreate: " + count + " record(s) updated");
 
-        int count = contentResolver.update(TasksContract.CONTENT_URI, values, selection, null);
 
+//        values.put(TasksContract.Columns.TASKS_DESCRIPTION, "for deletion");
+//        String selection = TasksContract.Columns.TASKS_SORT_ORDER + " = ?";
+//        String[] args = {"99"};
+//        int count = contentResolver.update(TasksContract.CONTENT_URI, values, selection, args);
+//        Log.d(TAG, "onCreate: " + count + " record(s) updated");
+
+//        int count = contentResolver.delete(TasksContract.buildTaskUri(3), null, null);
+//        Log.d(TAG, "onCreate: " + count + " record(s) deleted");
+
+//        String selection = TasksContract.Columns.TASKS_DESCRIPTION + " = ?";
+//        String[] args = {"for deletion"};
+//        int count = contentResolver.delete(TasksContract.CONTENT_URI, selection, args);
 
 //        values.put(TasksContract.Columns.TASKS_NAME, "Content Provider");
 //        values.put(TasksContract.Columns.TASKS_DESCRIPTION, "record content provider video");
@@ -77,6 +90,11 @@ MainActivity extends AppCompatActivity {
 //        values.put(TasksContract.Columns.TASKS_NAME, "new tasks 5");
 //        values.put(TasksContract.Columns.TASKS_DESCRIPTION, "description 5");
 //        values.put(TasksContract.Columns.TASKS_SORT_ORDER, 2);
+//        uri = contentResolver.insert(TasksContract.CONTENT_URI, values);
+//
+//        values.put(TasksContract.Columns.TASKS_NAME, "new tasks 6");
+//        values.put(TasksContract.Columns.TASKS_DESCRIPTION, "description 6");
+//        values.put(TasksContract.Columns.TASKS_SORT_ORDER, 5);
 //        uri = contentResolver.insert(TasksContract.CONTENT_URI, values);
 
         Cursor cursor = contentResolver.query(TasksContract.CONTENT_URI,
