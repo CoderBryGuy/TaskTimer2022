@@ -19,7 +19,8 @@
     <string name="edit_button_description">Button to edit task details.</string>
     <string name="delete_button_description">" Button to delete tasks"</string>
     <string name="addedit_name_hint">Task name: required</string>
-    <string name="addedit_task_desctipion_text">Dummy description of some task I did</string>
+    <string name="addedit_task_desctipion_hint">Task description: (Optional)</string>
     <string name="addedit_save_button">save</string>
     <string name="addedit_sortorder">0</string>
+    <string name="title_activity_add_edit">AddEditActivity</string>
 </resources>
