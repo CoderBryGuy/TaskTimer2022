@@ -1,62 +1,93 @@
 package com.example.tasktimer2022;
 
+import android.annotation.SuppressLint;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MainActivityFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class MainActivityFragment extends Fragment {
+import java.security.InvalidParameterException;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+    private static final String TAG = "MainActivityFragment";
+
+    public static final int LOADER_ID = 0;
 
     public MainActivityFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MainActivityFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MainActivityFragment newInstance(String param1, String param2) {
-        MainActivityFragment fragment = new MainActivityFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        Log.d(TAG, "MainActivityFragment: starts");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: starts");
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main_activity, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onActivityCreated: starts");
+        super.onActivityCreated(savedInstanceState);
+        LoaderManager.getInstance(this).initLoader(LOADER_ID, null, this);
+
+    }
+
+    @NonNull
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        Log.d(TAG, "onCreateLoader: starts with id " + id);
+        String[] projection = {TasksContract.Columns._ID,TasksContract.Columns.TASKS_NAME,
+                TasksContract.Columns.TASKS_DESCRIPTION,TasksContract.Columns.TASKS_SORT_ORDER };
+        String sortOrder = TasksContract.Columns.TASKS_SORT_ORDER + "," + TasksContract.Columns.TASKS_NAME;
+
+        switch (id) {
+            case LOADER_ID:
+                return new CursorLoader(
+                        getActivity(),
+                        TasksContract.CONTENT_URI,
+                        projection,
+                        null,
+                        null,
+                        sortOrder);
+
+            default:
+            throw new InvalidParameterException(TAG + ".onCreateLoader called with invalid loader id " + id);
+        }
+    }
+
+    @SuppressLint("Range")
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+        Log.d(TAG, "onLoadFinished: starts");
+        int count = -1;
+
+        if(data != null){
+            while (data.moveToNext()){
+                for (int i = 0; i < data.getColumnCount(); i++) {
+                    Log.d(TAG, "onLoadFinished: " + data.getColumnName(i) + ": " + data.getString(i));
+                }
+                Log.d(TAG, "onLoadFinished: ============================");
+            }
+
+            count = data.getCount();
+        }
+
+        Log.d(TAG, "onLoadFinished: count is " + count);
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+        Log.d(TAG, "onLoaderReset: starts");
     }
 }

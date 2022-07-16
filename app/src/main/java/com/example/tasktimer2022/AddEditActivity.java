@@ -2,6 +2,7 @@ package com.example.tasktimer2022;
 
 import android.os.Bundle;
 import android.util.Log;
+import androidx.appcompat.app.ActionBar;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
@@ -10,6 +11,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.example.tasktimer2022.databinding.ActivityAddEditBinding;
+
+import java.util.Objects;
 
 public class AddEditActivity extends AppCompatActivity {
     private static final String TAG = "AddEditActivity";
@@ -25,8 +28,15 @@ public class AddEditActivity extends AppCompatActivity {
         binding = ActivityAddEditBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.toolbar);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+//        setSupportActionBar(binding.toolbar);
+//        getActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+
+        ActionBar actionBar = this.getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
 
     }
