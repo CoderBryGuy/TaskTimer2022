@@ -23,4 +23,12 @@
     <string name="addedit_save_button">save</string>
     <string name="addedit_sortorder">0</string>
     <string name="title_activity_add_edit">AddEditActivity</string>
+    <string name="tli_description_null_text">
+        Use the add button (+) in the toolbar above to create new tasks.
+        &#10;&#10; Tasks with lower sort orders will be placed higher up the list.
+        Task with the same sort order will be sorted alphabetically.
+        &#10;&#10; Tapping a task will start the timer for that task (and will stop the timer for any previous task that was being timed
+        &#10;&#10; Each task has Edit and Delete buttons if you want to change the details or remove the task.
+    </string>
+    <string name="tli_name_null_text">Instructions</string>
 </resources>
