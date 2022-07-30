@@ -13,12 +13,15 @@ import android.view.ViewGroup;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.security.InvalidParameterException;
 
 
 public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "MainActivityFragment";
+    private CursorRecyclerViewAdapter mAdapter; // add adapter reference
 
     public static final int LOADER_ID = 0;
 
@@ -32,7 +35,15 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: starts");
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_activity, container, false);
+        View view = inflater.inflate(R.layout.fragment_main_activity, container, false);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.task_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        mAdapter = new CursorRecyclerViewAdapter(null);
+        recyclerView.setAdapter(mAdapter);
+
+        Log.d(TAG, "onCreateView: returning");
+        return view;
     }
 
     @Override

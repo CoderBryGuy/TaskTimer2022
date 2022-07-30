@@ -23,6 +23,7 @@
     <string name="addedit_save_button">save</string>
     <string name="addedit_sortorder">0</string>
     <string name="title_activity_add_edit">AddEditActivity</string>
+    <string name="no_task_message">No Task Selected.</string>
     <string name="tli_description_null_text">
         Use the add button (+) in the toolbar above to create new tasks.
         &#10;&#10; Tasks with lower sort orders will be placed higher up the list.

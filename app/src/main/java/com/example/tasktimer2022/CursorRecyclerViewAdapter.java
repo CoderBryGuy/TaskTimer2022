@@ -47,6 +47,16 @@ class CursorRecyclerViewAdapter extends RecyclerView.Adapter<CursorRecyclerViewA
             holder.description.setText(mCursor.getColumnIndex(TasksContract.Columns.TASKS_DESCRIPTION));
             holder.editButton.setVisibility(View.VISIBLE); //TODO add onclick listener
             holder.deleteButton.setVisibility(View.VISIBLE); //TODO add onclick listener
+
+            View.OnClickListener buttonListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "onClick: starts");
+                    Log.d(TAG, "onClick: button with id " + v.getId() + " clicked");
+                }
+            };
+            holder.editButton.setOnClickListener(buttonListener);
+            holder.deleteButton.setOnClickListener(buttonListener);
         }
 
     }
